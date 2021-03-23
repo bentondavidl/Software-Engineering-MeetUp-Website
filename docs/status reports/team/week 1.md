@@ -27,6 +27,6 @@ Week 1: 3/14-3/20
 ## Next Meeting Agenda
 
 * Ensure that everyone in the group is able to communicate
-* Ensure that everyones devlopment environment is working properly
+* Ensure that everyones development environment is working properly
 * Going over User Stories
 * Discuss wireframing
