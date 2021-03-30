@@ -1,6 +1,6 @@
 # Team Weekly Status Report
 
-Week 1: 3/14-3/20
+Week 1: 3/14-3/20 
 
 ## Goals from Last Week
 
