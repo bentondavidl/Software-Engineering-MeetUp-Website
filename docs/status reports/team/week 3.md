@@ -25,4 +25,6 @@ Week 3: 3/29-4/4
 
 ## Next Meeting Agenda
 
-* 
+* Talk about strategies to get all group members more engaged in the project
+* Go through the labeled wireframes to make sure they make sense
+* Talk through any lingering concerns around behavioral testing
