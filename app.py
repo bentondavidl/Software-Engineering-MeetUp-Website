@@ -97,6 +97,15 @@ def update_event(event_id):
 
         return render_template('new_event.html', event=event)
 
+@app.route('/events/delete/<event_id>', methods=['POST'])
+def delete(event_id):
+    # get event from db
+    # event = db.session.query(Event).filter_by(id=event_id)
+    # db.session.delete(event)
+    # db.session.commit()
+
+    return redirect(url_for('event_list'))
+
 
 # start application locally at http://127.0.0.1:5000
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
