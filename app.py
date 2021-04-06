@@ -65,7 +65,37 @@ def new_event(user_id):
     else:
         return render_template('new_event.html')
 
+@app.route('/events/edit/<event_id>', methods=['GET','POST'])
+def update_event(event_id):
+    if request.method == 'POST':
+        name = request.form.get('name')
 
+        # need to format start and end time
+        start_time = request.form.get('start_time')
+        end_time = request.form.get('end_time')
+
+        location = request.form.get('location')
+        description = request.form.get('description')
+
+        # optional
+        is_private = request.form.get('is_private')
+        passcode = request.form.get('passcode')
+
+        max_occupancy = request.form.get('max_occupancy')
+        image = request.form.get('image_url')
+
+        # get existing event from db
+        # event = db.session.query(Event).filter_by(id=event_id).first()
+
+        # update event properties
+
+        return redirect(url_for('event', event_id=event_id))
+    else:
+        # get event from db
+        # event = db.session.query(Event).filter_by(id=event_id)
+        event = None
+
+        return render_template('new_event.html', event=event)
 
 
 # start application locally at http://127.0.0.1:5000
