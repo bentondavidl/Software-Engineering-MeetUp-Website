@@ -4,7 +4,7 @@
 import os                 # os is used to get environment variables IP & PORT
 import time
 from flask import Flask   # Flask is the web app that we will customize
-from flask import render_template 
+from flask import render_template, request, redirect, url_for
 
 app = Flask(__name__)     # create an app
 
@@ -32,6 +32,40 @@ def event(event_id):
         4: {'name':'Event 4', 'time':'4:00pm-5:00pm Feb 4', 'host':'Host 4', 'location':'Location 4', 'description':'Description 4'},
         }
     return render_template('events.html', events[event_id])
+
+@app.route('/events/new', methods=['GET','POST'])
+def new_event(user_id):
+    if request.method == 'POST':
+        # fix with actual field names
+        name = request.form.get('name')
+        host = user_id # person who creates it is assumed the host
+
+        # need to format start and end time
+        start_time = request.form.get('start_time')
+        end_time = request.form.get('end_time')
+
+        location = request.form.get('location')
+        description = request.form.get('description')
+
+        # optional
+        is_private = request.form.get('is_private')
+        passcode = request.form.get('passcode')
+
+        max_occupancy = request.form.get('max_occupancy')
+        image = request.form.get('image_url')
+
+        # create event object
+
+        # get id of newly created event
+        event_id = 0
+        # add to db
+
+        # after creation, send user to page of the new event
+        return redirect(url_for('event', event_id=event_id))
+    else:
+        return render_template('new_event.html')
+
+
 
 
 # start application locally at http://127.0.0.1:5000
