@@ -1,30 +1,47 @@
-/* USING BOOTSTRAP 3.0.3 */
-body {
-	padding-top: 60px;
-}
-nav {
-  .navbar-brand {font-size: 30px;}
-	.navbar-toggle {margin: 13px 15px 13px 0;}
-	a {
-		font-size: 18px;
-		padding-bottom: 20px !important;
-		padding-top: 20px !important;
-    transition: all 0.3s ease;
-	}
+body{
+	background-color: #111111;
+	margin: 0px;
 }
 
+ul{
+	list-style-type: none;
+	background-color: #1D263B;
+	margin:0;
+	padding:0;
+	overflow: hidden;
 
+}
 
-nav.navbar.shrink {
-	min-height: 35px;
-  .navbar-brand {font-size: 25px;}
-  a {
-    font-size: 15px;
-    padding-bottom: 10px !important;
-    padding-top: 10px !important;
-  }
-  .navbar-toggle {
-    margin: 8px 15px 8px 0;
-    padding: 4px 5px;
-  }
+li{
+	float:left;
+
+}
+.nav-link #login{
+	float:right;
+}
+.nav-link{
+	text-decoration: none;
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 20px 22px;
+	background-color: #1D263B;
+	vertical-align: center;
+	float: right;
+}
+
+a:hover{
+	color: #62E4D3;
+	background-color: #021927;
+}
+
+.nav-link #login{
+	float:right;
+	color: #021927;
+}
+
+#title{
+	color:white;
+	padding-left: 15px;
+	padding-right: 15px;
 }
