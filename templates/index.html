@@ -1,27 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="UNCC Notes App">
-        <title>Event Melon Home</title>
-        <link rel="stylesheet" href="..\static\css\main.css">
-        <nav>
-          <ul id="navbar">
-            <li><a class="nav-link" href="/index"> Home </a></li>
-            <li><a class="nav-link"  href="/events"> Events </a></li>
-            <li><a class="nav-link"  href="/events/new"> New Event </a></li>
-            <li><a class="nav-link"  href="/profile"> Profile </a></li>
-            <li><a class="nav-link" id="login"  href="/login"> login </a></li>
+<html>
+  <head>
+      <link rel="stylesheet" href="..\static\css\main.css">
+      <title>Event Melon Home</title>
+
+      <nav>
+        <ul id="navbar">
+          <li><a class="nav-link" href="/index"> Home </a></li>
+          <li><a class="nav-link"  href="/events"> Events </a></li>
+          <li><a class="nav-link"  href="/events/new"> New Event </a></li>
+          <li><a class="nav-link"  href="/profile"> Profile </a></li>
+          <div class="nav-right">
+            <li><a class="nav-link" id="login"  href="/login"> Login </a></li>
+          </div>
+        </ul>
+      </nav>
+
+  </head>
+  <body>
+
+    <div class="event_frame_l">
+      <h1> Public Events </h1>
+    <!--  {% for event in events %}-->
+        <div class="public_event">
+            <h2> {event.name}</h2>
+            <ul class="event_info">
+              <li class="info"><p> Date: {event.start_time}</p></li>
+              <li class="info"><p> Location: {event.location}</p></li>
+              <li class="info"><a href="events/{event.id}"> +</a></li>
 
 
+            </ul>
+
+
+
+        </div>
+    <!--  {% endfor %} -->
+  </div>
+
+  <div class="event_frame_r">
+    <h1> Public Events </h1>
+  <!--  {% for event in events %}-->
+      <div class="public_event">
+          <h2> {event.name}</h2>
+          <ul class="event_info">
+            <li class="info"><p> Date: {event.start_time}</p></li>
+            <li class="info"><p> Location: {event.location}</p></li>
+            <li class="info"><a href="events/{event.id}"> +</a></li>
           </ul>
-        </nav>
-
-    </head>
-    <body>
 
 
 
-    </body>
+      </div>
+  <!--  {% endfor %} -->
+</div>
+
+
+    <div class="footer">
+        <h3>Property of Bring Me The Mellons Inc. 2021</h3>
+    </div>
+  </body>
+
+
 </html>
