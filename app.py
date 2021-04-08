@@ -31,7 +31,7 @@ def event(event_id):
         3: {'name':'Event 3', 'time':'4:00pm-5:00pm Feb 3', 'host':'Host 3', 'location':'Location 3', 'description':'Description 3'},
         4: {'name':'Event 4', 'time':'4:00pm-5:00pm Feb 4', 'host':'Host 4', 'location':'Location 4', 'description':'Description 4'},
         }
-    return render_template('events.html', events[event_id])
+    return render_template('event.html', events[event_id])
 
 @app.route('/events/new', methods=['GET','POST'])
 def new_event(user_id):
