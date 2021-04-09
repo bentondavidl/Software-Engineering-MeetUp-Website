@@ -1,4 +1,5 @@
 body{
+	background-color: #111111;
 	margin: 0px;
 	background-color: #121212
 }
@@ -48,27 +49,36 @@ a:hover{
 }
 
 .footer{
-	color: white;
 	background-color: #323232
 	position: absolute;
 	bottom: 0;
-	width: 100%;
-	height: 5%;
+	width: 100vh;
+	height: 5vh
 	text-align: center;
 }
 .event_frame_l	{
 	background-image: linear-gradient( to bottom, #323232, #404040);
 	flex:50%;
-	padding-left: 5px;
+	border-radius: 15px;
+	padding-left: 15px;
+	height: 90vh
 }
 
 .event_frame_r	{
 	background-image: linear-gradient( to bottom, #323232, #404040);
-	flex:50%
+	flex:50%;
+	border-radius:15px;
+	padding-left: 15px;
 }
 .spacer{
-	width: 10px;
+	width: 2%;
 }
+
+#line{
+	border-left: 6px #00FF00;
+	height: 1000%
+}
+
 p{
 	color: white;
 }
