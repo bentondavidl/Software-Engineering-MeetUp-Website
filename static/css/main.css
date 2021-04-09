@@ -51,20 +51,19 @@ a:hover{
 	background-color: #323232
 	position: absolute;
 	bottom: 0;
-	width: 100vh;
-	height: 5vh
+	width: 100%;
 	text-align: center;
 }
 .event_frame_l	{
-	background-image: linear-gradient( to bottom, #323232, #404040);
+	background-image: linear-gradient( to bottom, #323232, #505050);
 	flex:50%;
 	border-radius: 15px;
 	padding-left: 15px;
-	height: 90vh
+	height: 88vh
 }
 
 .event_frame_r	{
-	background-image: linear-gradient( to bottom, #323232, #404040);
+	background-image: linear-gradient( to bottom, #323232, #505050);
 	flex:50%;
 	border-radius:15px;
 	padding-left: 15px;
@@ -87,10 +86,15 @@ h1{
 h2{
 	color:#11FF11;
 }
+
+h3{
+	color:white;
+}
 .public_event{
 	background-color: #454545;
-	border-width: 4px;
-	border-color: #62E4D3;
+	border-radius: 8px;
+	padding:8px;
+	box-shadow: 5px 5px #121212;
 
 }
 
