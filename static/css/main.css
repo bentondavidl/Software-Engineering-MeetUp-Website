@@ -186,3 +186,44 @@ button{
      width: 100%;
      border-radius: 3px;
 }
+
+.profile_pic{
+    float: left;
+    margin: 5% 15%;
+}
+
+.profile_info{
+    margin: 5% 5%;
+    background-image: linear-gradient( to bottom, #323232, #505050);
+	flex:5%;
+	border-radius: 15px;
+	padding-left: 15px;
+	height: 50vh;
+	width: 50vh;
+	padding-right: 15px;
+	list-style-type: none;
+}
+
+.profile_grid{
+    display:inline-grid;
+}
+
+.profile_events{
+	background-image: linear-gradient( to bottom, #323232, #505050);
+	flex:50%;
+	border-radius: 15px;
+	padding-left: 15px;
+	height: 68vh;
+	width: 88vh;
+	padding-right: 15px;
+}
+
+.profile_friend{
+    background-color: #454545;
+	border-radius: 8px;
+	padding:15px;
+	box-shadow: 5px 5px #121212;
+	margin: 10px;
+	height: 10vh;
+	width: 40vh;
+}
