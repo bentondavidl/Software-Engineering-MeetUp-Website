@@ -11,21 +11,23 @@ Week 4: 4/5-4/11
 
 ## Progress this Week
 
-* Began work on skeleton diagram for database.
-* Created Scenarios for user stories 
-* Created consistent design across all html pages 
+* Got database tables and files set up.
+* Created Scenarios from user stories and converted them to Gerkin
+* Created consistent design across all html pages
 * created basic layout for all views
 * Made a profile page
+* Got controller ready to be hooked into the database
 
 ## Goals for Next Week
 
-* testing user stories 
-* finish basic layout 
+* testing user stories
+* finish basic layout
 * improve website design and layout
-* work on profile page
+* Connect database and controller
+* Finish controller for all views and actions
 
 ## Next Meeting Agenda
 
-* test user stories and features 
-* test profile page
-* test database 
+* Review tests for user stories and features
+* Discuss challenges around hooking up database and controller
+* Divide remaining tasks between team members
