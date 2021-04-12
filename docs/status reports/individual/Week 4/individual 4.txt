@@ -1,0 +1,13 @@
+Goals from last week
+
+- Testing our work so far 
+
+Progress this week
+
+- Made basic layout for functions 
+
+Goals for next week
+
+- continuing to work on basic layout
+
+-Test user stories and functionality  
