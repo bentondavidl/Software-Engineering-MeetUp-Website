@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateTimeField
+from wtforms.fields.core import BooleanField
 from wtforms.validators import Length, DataRequired, EqualTo, Email
 from wtforms import ValidationError
 from database.models import User
@@ -50,4 +51,21 @@ class LoginForm(FlaskForm):
     def validate_email(self, field):
         if db.session.query(User).filter_by(email=field.data).count() == 0:
             raise ValidationError('Incorrect username or password.')
+
+class EventForm(FlaskForm):
+    class Meta:
+        csrf = False
+
+    name = StringField('Event Title', [DataRequired(message='The event must have a name')])
+
+    start_time = DateTimeField('Start Time', [DataRequired(message='When is your event?')])
+    end_time = DateTimeField('End Time')
+
+    location = StringField('Location', [DataRequired(message='Where is your event?')])
+
+    description = TextAreaField('Event Description', validators=[Length(min=1)])
+
+    is_private = BooleanField('Private Event?')
+
+    submit = SubmitField('Create Event')
 
