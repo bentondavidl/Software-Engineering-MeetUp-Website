@@ -14,8 +14,12 @@
             <li><a class="nav-link"  href="/events/new"> New Event </a></li>
             <li><a class="nav-link"  href="/profile"> Profile </a></li>
             <li><a class="nav-link" id="login"  href="/login"> Login </a></li>
-
-
+            <h1> {{ event.title}}</h1>
+            <p> Host: {{ event.host }} </p>
+            <p> About: {{ event.description }}</p>
+            <form action="join" method='post'>
+              <button>Join Event</button>
+            </form>
           </ul>
         </nav>
 
