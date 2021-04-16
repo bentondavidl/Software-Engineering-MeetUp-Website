@@ -62,6 +62,11 @@ a:hover{
 	padding-left: 15px;
 	height: 88vh;
 	padding-right: 15px;
+	overflow-y: auto;
+}
+
+.hover_header{
+	position:static;
 }
 
 .container{
@@ -96,6 +101,7 @@ a:hover{
 	border-radius:15px;
 	padding-left: 15px;
 	padding-right: 15px;
+	overflow-y: auto;
 }
 
 .frame_gradient{
