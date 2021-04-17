@@ -24,7 +24,8 @@ with app.app_context():
 # create default endpoint for application
 @app.route('/')
 def index():
-    return render_template('index.html')
+    events = db.session.query(Event).filter_by(is_private=False).all()
+    return render_template('index.html', events=events)
 
 @app.route('/events')
 def event_list():
@@ -44,6 +45,8 @@ def event(event_id):
 
 @app.route('/events/new', methods=['GET','POST'])
 def new_event():
+    event_form = EventForm()
+
     if session.get('user'):
         if request.method == 'POST':
             # fix with actual field names
@@ -78,11 +81,13 @@ def new_event():
             # after creation, send user to page of the new event
             return redirect(url_for('event', event_id=event_id))
         else:
-            return render_template('new_event.html')
+            return render_template('new_event.html', form=event_form)
     return redirect(url_for('login'))
 
 @app.route('/events/edit/<event_id>', methods=['GET','POST'])
 def update_event(event_id):
+    event_form = EventForm()
+
     if request.method == 'POST':
         name = request.form.get('name')
 
@@ -118,7 +123,7 @@ def update_event(event_id):
         # get event from db
         event = db.session.query(Event).filter_by(id=event_id).one()
 
-        return render_template('new_event.html', event=event)
+        return render_template('new_event.html', event=event, form=event_form)
 
 @app.route('/events/delete/<event_id>', methods=['POST'])
 def delete(event_id):
