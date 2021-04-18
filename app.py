@@ -12,7 +12,7 @@ from forms import *
 
 app = Flask(__name__)     # create an app
 
-app.config['SQLALCHEMY_DATABSE_URI'] = 'sqlite:///meetup.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meetup.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'BringMeTheMelons'
 
@@ -23,6 +23,7 @@ with app.app_context():
 
 # create default endpoint for application
 @app.route('/')
+@app.route('/index')
 def index():
     events = db.session.query(Event).filter_by(is_private=False).all()
     return render_template('index.html', events=events)
@@ -30,7 +31,9 @@ def index():
 @app.route('/events')
 def event_list():
     if session.get('user'):
-        events = db.session.query(Event).all()
+        public_events = db.session.query(Event).filter_by(is_private=False).all()
+        host_events = db.session.query(Event).filter_by(host_id=session.get('user_id')).all()
+        events = public_events + host_events
         return render_template('events.html', events=events)
     
     return redirect(url_for('login'))
@@ -38,8 +41,12 @@ def event_list():
 @app.route('/events/<int:event_id>')
 def event(event_id):
     if session.get('user'):
-        events = db.session.query(Event).filter_by(event_id=event_id).one()
-        return render_template('event.html', events)
+        form = RSVPForm()
+        event = db.session.query(Event).filter_by(id=event_id).one()
+        host_name = db.session.query(User).filter_by(id=event.host_id).one().first_name
+        is_host = event.host_id == session.get('user_id')
+        return render_template('event.html', event=event, host_name=host_name,
+         is_host=is_host, form=form)
     
     return redirect(url_for('login'))
 
@@ -61,7 +68,7 @@ def new_event():
             description = request.form.get('description')
 
             # optional
-            is_private = request.form.get('is_private')
+            is_private = True if request.form.get('is_private') is 'y' else False
             # passcode = request.form.get('passcode')
 
             # max_occupancy = request.form.get('max_occupancy')
@@ -72,11 +79,11 @@ def new_event():
                     end_time=end_time, location=location, description=description, 
                     is_private=is_private)
 
-            # get id of newly created event
-            event_id = event.id
             # add to db
             db.session.add(event)
             db.session.commit()
+            # get id of newly created event
+            event_id = int(event.id)
 
             # after creation, send user to page of the new event
             return redirect(url_for('event', event_id=event_id))
@@ -99,7 +106,7 @@ def update_event(event_id):
         description = request.form.get('description')
 
         # optional
-        is_private = request.form.get('is_private')
+        is_private = True if request.form.get('is_private') is 'y' else False
         # passcode = request.form.get('passcode')
 
         # max_occupancy = request.form.get('max_occupancy')
@@ -123,16 +130,48 @@ def update_event(event_id):
         # get event from db
         event = db.session.query(Event).filter_by(id=event_id).one()
 
+        # populate fields with current values
+        event_form['name'].data = event.name
+
+        event_form['start_time'].data = event.start_time
+        event_form['end_time'].data = event.end_time
+        event_form['location'].data = event.location
+        event_form['description'].data = event.description
+        event_form['is_private'].data = event.is_private
+
         return render_template('new_event.html', event=event, form=event_form)
 
 @app.route('/events/delete/<event_id>', methods=['POST'])
 def delete(event_id):
     # get event from db
-    event = db.session.query(Event).filter_by(id=event_id).one()
-    db.session.delete(event)
-    db.session.commit()
+    if session.get('user'):
+        # retrieve note from db
+        event = db.session.query(Event).filter_by(id=event_id).one()
+        db.session.delete(event)
+        db.session.commit()
 
-    return redirect(url_for('event_list'))
+        return redirect(url_for('event_list'))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/events/<event_id>/rsvp', methods=['POST'])
+def rsvp(event_id):
+    if session.get('user'):
+        comment_form = RSVPForm()
+        # validate_on_submit only validates using POST
+        if comment_form.validate_on_submit():
+            # get comment data
+            is_going = True if request.form['is_going'] == 'y' else False
+            guests = int(request.form['guests'])
+            new_record = RSVP(user_id=session.get('user_id'), event_id=int(event_id), is_going=is_going, guests=guests)
+            db.session.add(new_record)
+            db.session.commit()
+
+        return redirect(url_for('event', event_id=event_id))
+
+    else:
+        return redirect(url_for('login'))
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -145,7 +184,7 @@ def login():
             session['user'] = the_user.first_name
             session['user_id'] = the_user.id
 
-            return redirect(url_for('get_notes'))
+            return redirect(url_for('event_list'))
 
         login_form.password.errors = ['Incorrect username or password.']
         return render_template('login.html', form=login_form)
@@ -172,9 +211,15 @@ def register():
         session['user'] = first_name
         session['user_id'] = new_user.id # access id value from user model of this new user
         # show user dashboard
-        return redirect(url_for('get_notes'))
+        return redirect(url_for('event_list'))
 
     return render_template('register.html', form=form)
+
+@app.route('/logout')
+def logout():
+    if session.get('user'):
+        session.clear()
+    return redirect(url_for('index'))
 
 # start application locally at http://127.0.0.1:5000
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)

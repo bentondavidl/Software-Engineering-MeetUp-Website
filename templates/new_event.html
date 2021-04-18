@@ -7,58 +7,93 @@
         <title>New Event</title>
         <link rel="stylesheet" href="..\static\css\main.css">
         <nav>
-          <ul id="navbar">
-            <li><a class="nav-link" href="/index"> Home </a></li>
-            <li><a class="nav-link"  href="/events"> Events </a></li>
-            <li><a class="nav-link"  href="/events/new"> New Event </a></li>
-            <li><a class="nav-link"  href="/profile"> Profile </a></li>
-            <li><a class="nav-link" id="login"  href="/login"> Login </a></li>
-
-
-          </ul>
+            <ul id="navbar">
+                <li><a class="nav-link" href="/index"> Home </a></li>
+                <li><a class="nav-link"  href="/events"> Events </a></li>
+                <li><a class="nav-link"  href="/events/new"> New Event </a></li>
+                <li><a class="nav-link"  href="/profile"> Profile </a></li>
+                <li><a class="nav-link" id="login"  href="/login"> Login </a></li>
+            </ul>
         </nav>
 
     </head>
     <body>
-      <p></p>
+        <p></p>
 
-      <div class="row">
-        <div class="spacer"></div>
-        <div class="frame">
-          <h1>New Event</h1>
-        </div>
-        <div class="spacer"></div>
-      </div>
-      <p></p>
-      <div class="row">
-          <div class="spacer"></div>
-          <div class=container_gradient>
-            <div class="event_info">
-              <form action='new' method="post">
-                <p> Event Name:  <input type="text" id="name"></p>
-                <div>
-                <p> Event Description:  </p>
-                <textarea id="event_desc" cols="50" rows="10"></textarea>
-                <p> Event Start Time:  <input type="text" id="start_time"></p>
-                <p> Event Location:  <input type="text" id="location"></p>
-                <p> Event End Time:  <input type="text" id="end_time"></p>
-                <p>Event Type:</p>
-                <input type="radio" id="age1" name="is_private" value="true">
-                <label for="age1">Public</label><br>
-                <input type="radio" id="private" name="is_private" value="false">
-                <label for="age2">Private</label><br>
-                <button >SUBMIT</button>
-              </div>
-              </form>
+        <div class="row">
+            <div class="spacer"></div>
+            <div class="frame">
+            <h1>New Event</h1>
             </div>
-              </fieldset>
-          </div>
-          <div class="spacer"></div>
-      </div>
+            <div class="spacer"></div>
+        </div>
+        <p></p>
+        <div class="row">
+            <div class="spacer"></div>
+            <div class=container_gradient>
+                <form method="POST" action="/events/new">
+                    <div class="form-field">{{ form.name.label }} {{ form.name }}
+                    {% if form.name.errors %}
+                    <ul class="errors">
+                        {% for error in form.name.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    </div>
+                    <div class="form-field">{{ form.start_time.label }} {{ form.start_time }}
+                    {% if form.start_time.errors %}
+                    <ul class="errors">
+                        {% for error in form.start_time.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    </div>
+                    <div class="form-field">{{ form.end_time.label }} {{ form.end_time }}
+                    {% if form.end_time.errors %}
+                    <ul class="errors">
+                        {% for error in form.end_time.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    </div>
+                    <div class="form-field">{{ form.location.label }} {{ form.location }}
+                    {% if form.location.errors %}
+                    <ul class="errors">
+                        {% for error in form.location.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    </div>
+                    <div class="form-field">{{ form.description.label }} {{ form.description }}
+                    {% if form.description.errors %}
+                    <ul class="errors">
+                        {% for error in form.description.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    </div>
+                    <div class="form-field">{{ form.is_private.label }} {{ form.is_private }}
+                    {% if form.is_private.errors %}
+                    <ul class="errors">
+                        {% for error in form.is_private.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    </div>
+                    {{ form.submit }}
+                </form>
+            <div class="spacer"></div>
+        </div>
 
-      <div class="footer">
-          <h3>Property of Bring Me The Mellons Inc. 2021</h3>
-          <h3>Josh Boshers, David Benton, Paul Goudreau, Swapnil Katawar, Timothy Pelphrey</h3>
-      </div>
+        <div class="footer">
+            <h3>Property of Bring Me The Mellons Inc. 2021</h3>
+            <h3>Josh Boshers, David Benton, Paul Goudreau, Swapnil Katawar, Timothy Pelphrey</h3>
+        </div>
     </body>
 </html>

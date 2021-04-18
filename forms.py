@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateTimeField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateTimeField, IntegerField
 from wtforms.fields.core import BooleanField
 from wtforms.validators import Length, DataRequired, EqualTo, Email
 from wtforms import ValidationError
@@ -58,8 +58,8 @@ class EventForm(FlaskForm):
 
     name = StringField('Event Title', [DataRequired(message='The event must have a name')])
 
-    start_time = DateTimeField('Start Time', [DataRequired(message='When is your event?')])
-    end_time = DateTimeField('End Time')
+    start_time = StringField('Start Time', [DataRequired(message='When is your event?')])
+    end_time = StringField('End Time')
 
     location = StringField('Location', [DataRequired(message='Where is your event?')])
 
@@ -69,3 +69,11 @@ class EventForm(FlaskForm):
 
     submit = SubmitField('Create Event')
 
+class RSVPForm(FlaskForm):
+    class Meta:
+        csrf = False
+
+    is_going = BooleanField('Are you going?')
+    guests = IntegerField('How many guests, including you, are attending?')
+
+    submit = SubmitField('Send RSVP')

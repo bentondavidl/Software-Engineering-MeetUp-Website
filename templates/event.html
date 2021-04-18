@@ -4,29 +4,49 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="UNCC Notes App">
-        <title>{event.name}</title>
+        <title>{{event.name}}</title>
         <link rel="stylesheet" href="..\static\css\main.css">
-        <nav>
-          <ul id="navbar">
-            <li><h1 id="title"> Event Melon</h1></li>
-            <li><a class="nav-link" href="/index"> Home </a></li>
-            <li><a class="nav-link"  href="/events"> Events </a></li>
-            <li><a class="nav-link"  href="/events/new"> New Event </a></li>
-            <li><a class="nav-link"  href="/profile"> Profile </a></li>
-            <li><a class="nav-link" id="login"  href="/login"> Login </a></li>
-            <h1> { event.title}</h1>
-            <p> Host: { event.host } </p>
-            <p> About: { event.description }</p>
-            <form action="join" method='post'>
-              <button>Join Event</button>
-            </form>
-          </ul>
-        </nav>
 
     </head>
     <body>
 
+        <nav>
+            <ul id="navbar">
+                <li>
+                    <h1 id="title"> Event Melon</h1>
+                </li>
+                <li><a class="nav-link" href="/index"> Home </a></li>
+                <li><a class="nav-link" href="/events"> Events </a></li>
+                <li><a class="nav-link" href="/events/new"> New Event </a></li>
+                <li><a class="nav-link" href="/profile"> Profile </a></li>
+                <li><a class="nav-link" id="login" href="/login"> Login </a></li>
+                
+            </ul>
+        </nav>
 
+        <h1> {{ event.title}}</h1>
+        <p> Host: {{ host_name }} </p>
+        <p> About: {{ event.description }}</p>
+
+        {% if not is_host %}
+        <form action="{{ url_for('rsvp', event_id=event.id) }}" method="post">
+            <div class="formwrapper">
+                <h2 class="title">RSVP</h2>
+                <div class="form-field">
+                    {{ form.is_going.label }} {{ form.is_going }} <br/>
+                    {{ form.guests.label }} {{ form.guests }}
+                </div>
+                {{ form.submit }}
+            </div>
+        </form>
+        {% endif %}
+
+        {% if is_host %}
+        <a href={{url_for('update_event', event_id=event.id)}} >Edit Event</a>
+        <form action="{{ url_for('delete', event_id=event.id) }}" method="post">
+            <input type="submit" value="Delete">
+        </form>
+        {% endif %}
 
     </body>
 </html>
