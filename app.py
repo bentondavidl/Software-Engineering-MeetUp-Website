@@ -24,6 +24,8 @@ with app.app_context():
 # create default endpoint for application
 @app.route('/')
 def index():
+    session['user'] = 'david'
+    session['user_id'] = 0
     events = db.session.query(Event).filter_by(is_private=False).all()
     return render_template('index.html', events=events)
 
@@ -31,7 +33,7 @@ def index():
 def event_list():
     if session.get('user'):
         events = db.session.query(Event).all()
-        return render_template('events.html', events)
+        return render_template('events.html', events=events)
     
     return redirect(url_for('login'))
 
@@ -68,7 +70,7 @@ def new_event():
             # image = request.form.get('image_url')
 
             # create event object
-            event = Event(name=name, host=host, start_time=start_time, 
+            event = Event(name=name, host_id=host, start_time=start_time, 
                     end_time=end_time, location=location, description=description, 
                     is_private=is_private)
 
@@ -138,6 +140,10 @@ def delete(event_id):
 def login():
     login_form = LoginForm()
 
+    if request.method == 'POST':
+        session['user'] = 'david'
+        session['user_id'] = 0
+        return redirect(url_for('get_notes'))
     if login_form.validate_on_submit():
         the_user = db.session.query(User).filter_by(email=request.form['email']).one()
 

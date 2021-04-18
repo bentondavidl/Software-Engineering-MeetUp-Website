@@ -29,8 +29,7 @@ class Event(db.Model):
     description = db.Column('description', db.VARCHAR, nullable=False)
     rsvps = db.relationship('RSVP', backref='event', cascade='all, delete-orphan', lazy=True)
     # add parameters for each field
-    def __init__(self, id, host_id, name, is_private, location, start_time, end_time, description):
-        self.id = id
+    def __init__(self, host_id, name, is_private, location, start_time, end_time, description):
         self.host_id = host_id
         self.name = name
         self.is_private = is_private
