@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="UNCC Notes App">
-        <title>{{user.name}}'s Profile'</title>
+        <title>{user.name}'s Profile'</title>
         <link rel="stylesheet" href="..\static\css\main.css">
         <nav>
           <ul id="navbar">
@@ -24,8 +24,8 @@
             </div>
 
             <div class="profile_info">
-                <h1>{{profile.username}}</h1>
-                <h2>{{profile.aboutyou}}</h2>
+                <h1>{profile.username}</h1>
+                <h2>{profile.aboutyou}</h2>
             </div>
 
             <div class="row">
@@ -35,34 +35,34 @@
                 <!--  {% for event in events %}-->
                 <ul class="event_list">
                   <li><div class="public_event">
-                      <h2> {{event.name}}</h2>
+                      <h2> {event.name}</h2>
                       <ul class="event_info">
-                        <li class="info"><p> Date: {{event.start_time}}</p></li>
-                        <li class="info"><p> Location: {{event.location}}</p></li>
+                        <li class="info"><p> Date: {event.start_time}</p></li>
+                        <li class="info"><p> Location: {event.location}</p></li>
                       </ul>
                   </div></li>
 
                   <li><div class="public_event">
                       <h2> {event.name}</h2>
                       <ul class="event_info">
-                        <li class="info"><p> Date: {{event.start_time}}</p></li>
-                        <li class="info"><p> Location: {{event.location}}</p></li>
+                        <li class="info"><p> Date: {event.start_time}</p></li>
+                        <li class="info"><p> Location: {event.location}</p></li>
                       </ul>
                   </div></li>
 
                   <li><div class="public_event">
                       <h2> {event.name}</h2>
                       <ul class="event_info">
-                        <li class="info"><p> Date: {{event.start_time}}</p></li>
-                        <li class="info"><p> Location: {{event.location}}</p></li>
+                        <li class="info"><p> Date: {event.start_time}</p></li>
+                        <li class="info"><p> Location: {event.location}</p></li>
                       </ul>
                   </div></li>
 
                   <li><div class="public_event">
-                      <h2> {{event.name}}</h2>
+                      <h2> {event.name}</h2>
                       <ul class="event_info">
-                        <li class="info"><p> Date: {{event.start_time}}</p></li>
-                        <li class="info"><p> Location: {{event.location}}</p></li>
+                        <li class="info"><p> Date: {event.start_time}</p></li>
+                        <li class="info"><p> Location: {event.location}</p></li>
                       </ul>
                   </div></li>
                 </ul>
