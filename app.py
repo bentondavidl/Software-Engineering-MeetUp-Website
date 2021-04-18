@@ -15,6 +15,7 @@ app = Flask(__name__)     # create an app
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meetup.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'BringMeTheMelons'
+app.config['logged_in'] = False
 
 db.init_app(app)
 
@@ -183,6 +184,7 @@ def login():
         if bcrypt.checkpw(request.form['password'].encode('utf-8'), the_user.password):
             session['user'] = the_user.first_name
             session['user_id'] = the_user.id
+            session['logged_in'] = True
 
             return redirect(url_for('event_list'))
 
@@ -219,6 +221,7 @@ def register():
 def logout():
     if session.get('user'):
         session.clear()
+        session['logged_in'] = False
     return redirect(url_for('index'))
 
 # start application locally at http://127.0.0.1:5000
