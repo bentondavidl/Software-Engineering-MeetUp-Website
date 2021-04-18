@@ -25,18 +25,18 @@
     <div class="spacer"></div>
     <div class="event_frame_l">
       <h1 class="hover_header"> Public Events </h1>
-    {{% for event in events %}}
+    {% for event in events %}
     <ul class="event_list">
       <li><div class="public_event">
-          <h2> {{event.name}}</h2>
+          <h2> {event.name}</h2>
           <ul class="event_info">
-            <li class="info"><p> Date: {{event.start_time}}</p></li>
-            <li class="info"><p> Location: {{event.location}}</p></li>
+            <li class="info"><p> Date: {event.start_time}</p></li>
+            <li class="info"><p> Location: {event.location}</p></li>
             <li class="info"><a href="events/{event.id}"> +</a></li>
           </ul>
       </div></li>
 
-    {{% endfor %}}
+    {% endfor %}
     </div>
     <div class="spacer">
       <div id="line"></div>
@@ -44,19 +44,19 @@
 
     <div class="event_frame_r">
       <h1> Public Events </h1>
-    {{% for event in events %}}
+    {% for event in events %}
     <ul class="event_list">
       <li><div class="public_event">
-          <h2> {{event.name}}</h2>
+          <h2> {event.name}</h2>
           <ul class="event_info">
-            <li class="info"><p> Date: {{event.start_time}}</p></li>
-            <li class="info"><p> Location: {{event.location}}</p></li>
+            <li class="info"><p> Date: {event.start_time}}</p></li>
+            <li class="info"><p> Location: {event.location}</p></li>
             <li class="info"><a href="events/{event.id}"> +</a></li>
           </ul>
       </div></li>
 
     </ul>
-    {{% endfor %}}
+    {% endfor %}
     </div>
     <div class="spacer"></div>
   </div>
