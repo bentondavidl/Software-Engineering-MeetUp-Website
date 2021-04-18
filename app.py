@@ -24,8 +24,6 @@ with app.app_context():
 # create default endpoint for application
 @app.route('/')
 def index():
-    session['user'] = 'david'
-    session['user_id'] = 0
     events = db.session.query(Event).filter_by(is_private=False).all()
     return render_template('index.html', events=events)
 
@@ -140,10 +138,6 @@ def delete(event_id):
 def login():
     login_form = LoginForm()
 
-    if request.method == 'POST':
-        session['user'] = 'david'
-        session['user_id'] = 0
-        return redirect(url_for('get_notes'))
     if login_form.validate_on_submit():
         the_user = db.session.query(User).filter_by(email=request.form['email']).one()
 
