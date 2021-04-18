@@ -13,11 +13,11 @@
             <li><a class="nav-link"  href="/events/new"> New Event </a></li>
             <li><a class="nav-link"  href="/profile"> Profile </a></li>
             <li><a class="nav-link" id="login"  href="/login"> Login </a></li>
-            { %for event in events %}
+            {%for event in events%}
             <div>
               <h1> {event.title}</h1>
             </div>
-            {%end for%}
+            {%endfor%}
 
           </ul>
         </nav>
