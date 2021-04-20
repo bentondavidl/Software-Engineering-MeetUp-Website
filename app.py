@@ -2,7 +2,7 @@
 
 # imports
 import os                 # os is used to get environment variables IP & PORT
-import time
+from datetime import datetime
 from flask import Flask   # Flask is the web app that we will customize
 from flask import render_template, request, redirect, url_for, session
 from database.database import db
@@ -61,8 +61,8 @@ def new_event():
             host = session.get('user_id') # person who creates it is assumed the host
 
             # need to format start and end time
-            start_time = request.form.get('start_time')
-            end_time = request.form.get('end_time')
+            start_time = datetime.strptime(request.form.get('start_time'), '%Y-%m-%d %H:%M')
+            end_time = datetime.strptime(request.form.get('end_time'), '%Y-%m-%d %H:%M')
 
             location = request.form.get('location')
             description = request.form.get('description')

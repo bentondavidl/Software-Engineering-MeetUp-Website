@@ -23,8 +23,8 @@ class Event(db.Model):
     name = db.Column('name', db.String(100), nullable=False)
     is_private = db.Column('is_private', db.Boolean, default=False, nullable=False)
     location = db.Column('location', db.String(200), nullable=False)
-    start_time = db.Column('start_time', db.String(50), nullable=False)
-    end_time = db.Column('end_time', db.String(50))
+    start_time = db.Column('start_time', db.DateTime, nullable=False)
+    end_time = db.Column('end_time', db.DateTime)
     description = db.Column('description', db.VARCHAR, nullable=False)
     rsvps = db.relationship('RSVP', backref='event', cascade='all, delete-orphan', lazy=True)
     # add parameters for each field
