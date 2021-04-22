@@ -4,7 +4,7 @@
 import os                 # os is used to get environment variables IP & PORT
 from datetime import datetime
 from flask import Flask   # Flask is the web app that we will customize
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session, send_file
 from database.database import db
 from database.models import *
 import bcrypt
@@ -220,6 +220,24 @@ def logout():
     if session.get('user'):
         session.clear()
     return redirect(url_for('index'))
+
+@app.route('/events/<event_id>/download')
+def download_iCal(event_id):
+    event = db.session.query(Event).filter_by(id=event_id).one()
+    
+    with open('test_event.ics', 'w') as f:
+        f.write(f'''BEGIN:VCALENDAR
+BEGIN:VEVENT
+DESCRIPTION:{event.description}
+DTEND:{event.end_time.strftime('%Y%m%dT%H%M%S')}
+DTSTART:{event.start_time.strftime('%Y%m%dT%H%M%S')}
+LOCATION:{event.location}
+SUMMARY:{event.name}
+TZID:America/New_York
+END:VEVENT
+END:VCALENDAR''')
+    return send_file('test_event.ics', as_attachment=True)
+
 
 # start application locally at http://127.0.0.1:5000
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
