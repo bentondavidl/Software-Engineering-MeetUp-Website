@@ -6,7 +6,7 @@
         <meta name="description" content="UNCC Notes App">
         <title>Event Feed</title>
         <link rel="stylesheet" href="..\static\css\main.css">
-        
+
 
     </head>
     <body>
@@ -28,14 +28,38 @@
             {% endif %}
         </ul>
       </nav>
+      <p></p>
+      <div class="row">
+        <div class="spacer"></div>
 
-        {%for event in events%}
-        <div>
-            <h1> {{event.name}}</h1>
-            <p>The event is located {{event.location}} and is from {{event.start_time}} to {{event.end_time}} 
-                <a href={{url_for('event', event_id=event.id)}}>More Details</a></p>
+
+
+        <div class="event_frame_l">
+          <form method="POST" action="/events">
+            <input type="radio" id="lifo" name="sort_by" value="lifo">
+            <label for="lifo">Oldest --> Newest</label><br>
+            <input type="radio" id="fifo" name="sort_by" value="fifo">
+            <label for="fifo">Newest --> Oldest</label><br>
+            <input type="submit" id="submit">
+          </form>
+          {%for event in events%}
+          <ul class="event_list">
+            <li><div class="public_event">
+                <h2> {{event.name}}</h2>
+                <ul class="event_info">
+                  <li class="info"><p> Date: {{event.start_time}}</p></li>
+                  <li class="info"><p> Location: {{event.location}}</p></li>
+                  <li class="info"><a href="events/{{event.id}}"> +</a></li>
+                </ul>
+            </div></li>
+
+          {%endfor%}
         </div>
-        {%endfor%}
-
+        <div class="spacer"></div>
+      </div>
+      <div class="footer">
+          <h3>Property of Bring Me The Mellons Inc. 2021</h3>
+          <h3>Josh Boshers, David Benton, Paul Goudreau, Swapnil Katawar, Timothy Pelphrey</h3>
+      </div>
     </body>
 </html>
