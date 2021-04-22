@@ -12,9 +12,9 @@ class RegisterForm(FlaskForm):
         csrf = False
 
     firstname = StringField('First Name', validators=[Length(1, 10)])
-    
+
     lastname = StringField('Last Name', validators=[Length(1, 10)])
-    
+
     email = StringField('Email', [
         Email(message='Not a valid email address.'),
         DataRequired()])
@@ -27,7 +27,7 @@ class RegisterForm(FlaskForm):
     confirmPassword = PasswordField('Confirm Password', validators=[
         Length(min=6, max=10)
     ])
-    
+
     submit = SubmitField('Submit')
 
     def validate_email(self, field):
@@ -67,7 +67,11 @@ class EventForm(FlaskForm):
 
     is_private = BooleanField('Private Event?')
 
+    image = StringField('Image')
+
     submit = SubmitField('Create Event')
+
+
 
 class RSVPForm(FlaskForm):
     class Meta:
