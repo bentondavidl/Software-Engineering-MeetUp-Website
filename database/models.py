@@ -12,7 +12,7 @@ class User(db.Model):
     # add parameters for each field
     def __init__(self, first_name, last_name, password, email):
         self.first_name = first_name
-        self.last_name = last_name 
+        self.last_name = last_name
         self.password = password
         self.email = email
 
@@ -25,6 +25,7 @@ class Event(db.Model):
     location = db.Column('location', db.String(200), nullable=False)
     start_time = db.Column('start_time', db.String(50), nullable=False)
     end_time = db.Column('end_time', db.String(50))
+    image = db.Column('image', db.String(50))
     description = db.Column('description', db.VARCHAR, nullable=False)
     rsvps = db.relationship('RSVP', backref='event', cascade='all, delete-orphan', lazy=True)
     # add parameters for each field
@@ -35,6 +36,7 @@ class Event(db.Model):
         self.location = location
         self.start_time = start_time
         self.end_time = end_time
+        self.image = image
         self.description = description
 
 
@@ -51,6 +53,3 @@ class RSVP(db.Model):
         self.event_id = event_id
         self.is_going = is_going
         self.guests = guests
-    
-
-
