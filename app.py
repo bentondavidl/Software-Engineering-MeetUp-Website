@@ -328,6 +328,17 @@ def logout():
 
 @app.route('/events/<event_id>/download')
 def download_iCal(event_id):
+    """iCal export functionality
+
+    This generates an iCal (.ics) file for the provided event and sends it
+    to the browser to be downloaded. This allows for events created on this
+    site to be added to external calendar applications.
+
+    Parameters
+    ----------
+    event_id : int
+        ID of the event to export
+    """
     event = db.session.query(Event).filter_by(id=event_id).one()
     
     with open('test_event.ics', 'w') as f:
