@@ -35,7 +35,7 @@ def event_list():
         host_events = db.session.query(Event).filter_by(host_id=session.get('user_id')).all()
         events = public_events + host_events
         return render_template('events.html', events=events)
-    
+
     return redirect(url_for('login'))
 
 @app.route('/events/<int:event_id>')
@@ -47,7 +47,7 @@ def event(event_id):
         is_host = event.host_id == session.get('user_id')
         return render_template('event.html', event=event, host_name=host_name,
          is_host=is_host, form=form)
-    
+
     return redirect(url_for('login'))
 
 @app.route('/events/new', methods=['GET','POST'])
@@ -72,11 +72,11 @@ def new_event():
             # passcode = request.form.get('passcode')
 
             # max_occupancy = request.form.get('max_occupancy')
-            # image = request.form.get('image_url')
+            image = request.form.get('image')
 
             # create event object
-            event = Event(name=name, host_id=host, start_time=start_time, 
-                    end_time=end_time, location=location, description=description, 
+            event = Event(name=name, host_id=host, start_time=start_time,
+                    end_time=end_time, location=location,image = image, description=description,
                     is_private=is_private)
 
             # add to db
@@ -110,7 +110,7 @@ def update_event(event_id):
         # passcode = request.form.get('passcode')
 
         # max_occupancy = request.form.get('max_occupancy')
-        # image = request.form.get('image_url')
+        image = request.form.get('image')
 
         # get existing event from db
         event = db.session.query(Event).filter_by(id=event_id).one()
@@ -119,6 +119,7 @@ def update_event(event_id):
         event.start_time = start_time
         event.end_time = end_time
         event.location = location
+        event.image = image
         event.description = description
         event.is_private = is_private
 
@@ -129,13 +130,14 @@ def update_event(event_id):
     else:
         # get event from db
         event = db.session.query(Event).filter_by(id=event_id).one()
-
+        print(event)
         # populate fields with current values
         event_form['name'].data = event.name
 
         event_form['start_time'].data = event.start_time
         event_form['end_time'].data = event.end_time
         event_form['location'].data = event.location
+        event_form['image'].data = event.image
         event_form['description'].data = event.description
         event_form['is_private'].data = event.is_private
 
@@ -191,7 +193,7 @@ def login():
 
     else:
         return render_template('login.html', form=login_form)
-    
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
