@@ -341,7 +341,7 @@ def download_iCal(event_id):
     """
     event = db.session.query(Event).filter_by(id=event_id).one()
     
-    with open('test_event.ics', 'w') as f:
+    with open('event_export.ics', 'w') as f:
         f.write(f'''BEGIN:VCALENDAR
 BEGIN:VEVENT
 DESCRIPTION:{event.description}
@@ -352,7 +352,7 @@ SUMMARY:{event.name}
 TZID:America/New_York
 END:VEVENT
 END:VCALENDAR''')
-    return send_file('test_event.ics', as_attachment=True)
+    return send_file('event_export.ics', as_attachment=True)
 
 
 # start application locally at http://127.0.0.1:5000
