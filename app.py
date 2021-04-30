@@ -123,7 +123,7 @@ def new_event():
             description = request.form.get('description')
 
             # optional
-            is_private = True if request.form.get('is_private') is 'y' else False
+            is_private = True if request.form.get('is_private') == 'y' else False
             # passcode = request.form.get('passcode')
 
             # max_occupancy = request.form.get('max_occupancy')
@@ -176,7 +176,7 @@ def update_event(event_id: int):
         description = request.form.get('description')
 
         # optional
-        is_private = True if request.form.get('is_private') is 'y' else False
+        is_private = True if request.form.get('is_private') == 'y' else False
         # passcode = request.form.get('passcode')
 
         # max_occupancy = request.form.get('max_occupancy')
