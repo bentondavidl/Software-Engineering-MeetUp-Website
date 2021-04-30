@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateTimeField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateTimeField, IntegerField, RadioField
 from wtforms.fields.core import BooleanField
 from wtforms.validators import Length, DataRequired, EqualTo, Email
 from wtforms import ValidationError
@@ -86,3 +86,14 @@ class RSVPForm(FlaskForm):
     guests = IntegerField('How many guests, including you, are attending?')
 
     submit = SubmitField('Send RSVP')
+
+class EventsForm(FlaskForm):
+    class Meta:
+        csrf = False
+
+
+
+    sort_order = RadioField('sort_order', choices=[('O','Oldest Event First'),('N','Newest Event First'),('M','My Events')])
+
+
+    submit = SubmitField('Sort')

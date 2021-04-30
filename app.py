@@ -9,6 +9,7 @@ from database.database import db
 from database.models import *
 import bcrypt
 from forms import *
+from sqlalchemy import asc, desc
 
 app = Flask(__name__)     # create an app
 
@@ -34,7 +35,7 @@ def index():
     events = db.session.query(Event).filter_by(is_private=False).all()
     return render_template('index.html', events=events)
 
-@app.route('/events')
+@app.route('/events', methods=['GET','POST'])
 def event_list():
     """Event list page
 
@@ -44,12 +45,26 @@ def event_list():
 
     If there is no user logged in, it redirects to the login page.
     """
+    events_form = EventsForm()
     if session.get('user'):
-        public_events = db.session.query(Event).filter_by(is_private=False).all()
-        host_events = db.session.query(Event).filter_by(host_id=session.get('user_id')).all()
-        events = public_events + host_events
-        return render_template('events.html', events=events)
-
+        if request.method == 'POST':
+            events = None
+            if request.form.get('sort_order') == 'O':
+                public_events = db.session.query(Event).filter_by(is_private=False).order_by(desc(Event.id)).all()
+                host_events = db.session.query(Event).filter_by(host_id=session.get('user_id')).order_by(desc(Event.id)).all()
+                events = set(public_events + host_events)
+            if request.form.get('sort_order') == 'N':
+                public_events = db.session.query(Event).filter_by(is_private=False).order_by(asc(Event.id)).all()
+                host_events = db.session.query(Event).filter_by(host_id=session.get('user_id')).order_by(asc(Event.id)).all()
+                events = set(public_events + host_events)
+            if request.form.get('sort_order') == 'M':
+                events = db.session.query(Event).filter_by(host_id=session.get('user_id')).order_by(Event.name).all()
+            return render_template('events.html', events=events, form=events_form)
+        else:
+            public_events = db.session.query(Event).filter_by(is_private=False).all()
+            host_events = db.session.query(Event).filter_by(host_id=session.get('user_id')).all()
+            events = set(public_events + host_events)
+            return render_template('events.html', events=events, form=events_form)
     return redirect(url_for('login'))
 
 @app.route('/events/<int:event_id>')

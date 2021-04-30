@@ -35,13 +35,16 @@
 
 
         <div class="event_frame_l">
-          <form method="POST" action="/events">
-            <input type="radio" id="lifo" name="sort_by" value="lifo">
-            <label for="lifo">Oldest --> Newest</label><br>
-            <input type="radio" id="fifo" name="sort_by" value="fifo">
-            <label for="fifo">Newest --> Oldest</label><br>
-            <input type="submit" id="submit">
-          </form>
+          <form action="{{ url_for('event_list') }}" method="post">
+            <div class="formwrapper">
+                <div class="form-field">
+                    {% for subfield in form.sort_order %}
+                        {{ subfield }} {{ subfield.label }}
+                    {% endfor %}
+                </div>
+                {{ form.submit }}
+            </div>
+        </form>
           {%for event in events%}
           <ul class="event_list">
             <li><div class="public_event">
