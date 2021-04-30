@@ -84,9 +84,7 @@ class EventsForm(FlaskForm):
 
 
 
-    sort_order = RadioField('sort_order', choices=[('O','Oldest Event First'),('N','Newest Event First')])
+    sort_order = RadioField('sort_order', choices=[('O','Oldest Event First'),('N','Newest Event First'),('M','My Events')])
 
-    # oldest_first = RadioField('Oldest Event First')
-    # newest_first = RadioField('Newest Event First')
 
     submit = SubmitField('Sort')
