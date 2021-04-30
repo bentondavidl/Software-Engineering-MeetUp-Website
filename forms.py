@@ -58,8 +58,8 @@ class EventForm(FlaskForm):
 
     name = StringField('Event Title', [DataRequired(message='The event must have a name')])
 
-    start_time = StringField('Start Time', [DataRequired(message='When is your event?')])
-    end_time = StringField('End Time')
+    start_time = DateTimeField('Start Time', [DataRequired(message='When is your event?')])
+    end_time = DateTimeField('End Time', [DataRequired(message='When is your event?')])
 
     location = StringField('Location', [DataRequired(message='Where is your event?')])
 
@@ -71,6 +71,11 @@ class EventForm(FlaskForm):
 
     submit = SubmitField('Create Event')
 
+    def validate_on_submit(self):
+        result = super(EventForm, self).validate()
+        if self.start_time.data > self.end_time.data:
+            return False
+        return result
 
 
 class RSVPForm(FlaskForm):

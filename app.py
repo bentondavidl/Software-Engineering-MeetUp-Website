@@ -2,9 +2,9 @@
 
 # imports
 import os                 # os is used to get environment variables IP & PORT
-import time
+from datetime import datetime
 from flask import Flask   # Flask is the web app that we will customize
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session, send_file
 from database.database import db
 from database.models import *
 import bcrypt
@@ -12,24 +12,38 @@ from forms import *
 
 app = Flask(__name__)     # create an app
 
+# set up db location and special flags
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///meetup.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'BringMeTheMelons'
 
 db.init_app(app)
 
+# create database within the context of the app
 with app.app_context():
     db.create_all()
 
-# create default endpoint for application
 @app.route('/')
 @app.route('/index')
 def index():
+    """landing page for the meetup application
+
+    Displays the homepage with all public events. 
+    Both the `/` and `/index` routes call this method.
+    """
     events = db.session.query(Event).filter_by(is_private=False).all()
     return render_template('index.html', events=events)
 
 @app.route('/events')
 def event_list():
+    """Event list page
+
+    This page displays all of the events that are 
+    either public or are owned by the current user. 
+    This page is accessible via the `/events` route.
+
+    If there is no user logged in, it redirects to the login page.
+    """
     if session.get('user'):
         public_events = db.session.query(Event).filter_by(is_private=False).all()
         host_events = db.session.query(Event).filter_by(host_id=session.get('user_id')).all()
@@ -39,7 +53,22 @@ def event_list():
     return redirect(url_for('login'))
 
 @app.route('/events/<int:event_id>')
-def event(event_id):
+def event(event_id: int):
+    """Event details page
+
+    Page for showing a specific event. On this page, users are able to 
+    view all of the details of an event. If they are logged in as the host, 
+    they are able to edit or delete the event. Otherwise, they are able to 
+    RSVP. This is accessible via the `/events/<event_id>` route where event
+    ID is the `event_id` parameter.
+
+    If there is no user logged in, it redirects to the login page.
+
+    Parameters
+    ----------
+    event_id : int
+        ID of the event to be displayed on the page.
+    """
     if session.get('user'):
         form = RSVPForm()
         event = db.session.query(Event).filter_by(id=event_id).one()
@@ -52,6 +81,17 @@ def event(event_id):
 
 @app.route('/events/new', methods=['GET','POST'])
 def new_event():
+    """Create event page
+
+    This page hosts a form that allows users to create a new event.
+    Users must provide an event name, start/end time, location, and description
+    to create a valid event. They are also able to mark it as private or add an
+    image. On `POST` the filled form is converted to a database entry and the
+    user is redirected to the newly created event page.
+    This page is accessible via the `/events/new` route
+
+    If there is no user logged in, it redirects to the login page.
+    """
     event_form = EventForm()
 
     if session.get('user'):
@@ -61,8 +101,8 @@ def new_event():
             host = session.get('user_id') # person who creates it is assumed the host
 
             # need to format start and end time
-            start_time = request.form.get('start_time')
-            end_time = request.form.get('end_time')
+            start_time = datetime.strptime(request.form.get('start_time'), '%Y-%m-%d %H:%M')
+            end_time = datetime.strptime(request.form.get('end_time'), '%Y-%m-%d %H:%M')
 
             location = request.form.get('location')
             description = request.form.get('description')
@@ -92,10 +132,25 @@ def new_event():
     return redirect(url_for('login'))
 
 @app.route('/events/edit/<event_id>', methods=['GET','POST'])
-def update_event(event_id):
+def update_event(event_id: int):
+    """Event edit page
+
+    This page allows users to edit an existing event. On `GET`, users
+    are presented with a prefilled form with current event details 
+    which they are then able to edit. On `POST`, the edits in the form
+    are committed to the database and users are redirected to the updated
+    event's page.
+    This page is accessible via the `/events/edit/<event_id>` route
+
+    Parameters
+    ----------
+    event_id : int
+        ID of the event to edit
+    """
     event_form = EventForm()
 
     if request.method == 'POST':
+        # event names cannot be updated after creation
         name = request.form.get('name')
 
         # need to format start and end time
@@ -145,6 +200,18 @@ def update_event(event_id):
 
 @app.route('/events/delete/<event_id>', methods=['POST'])
 def delete(event_id):
+    """Delete event
+
+    This cannot be accessed by `GET` and only accepts `POST` 
+    requests to prevent unauthorized deletion of events. When
+    it is accessed, the event with the given id is removed from
+    the database.
+
+    Parameters
+    ----------
+    event_id : int
+        ID of the event to delete
+    """
     # get event from db
     if session.get('user'):
         # retrieve note from db
@@ -158,6 +225,19 @@ def delete(event_id):
 
 @app.route('/events/<event_id>/rsvp', methods=['POST'])
 def rsvp(event_id):
+    """RSVP to event
+
+    This method facilitates the RSVP functionality for users
+    to events. It only accepts `POST` requests so that it 
+    must be called from an event's details page. When this is called,
+    it takes the data from the RSVP form and creates a new 
+    record in the database.
+
+    Parameters
+    ----------
+    event_id : int
+        ID of the event to RSVP to
+    """
     if session.get('user'):
         comment_form = RSVPForm()
         # validate_on_submit only validates using POST
@@ -177,6 +257,15 @@ def rsvp(event_id):
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    """Login page
+
+    This page allows users to log in to the application.
+    On `GET`, it presents users with a login form. On 
+    `POST`, it verifies that the user exists in the database and
+    adds their id and name to the session. Once a user is logged in, 
+    they are redirected to the public list of events.
+    This page can be accessed via the `/login` route
+    """
     login_form = LoginForm()
 
     if login_form.validate_on_submit():
@@ -196,6 +285,17 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """Register new user page
+
+    This page allows users to register to the application.
+    On `GET`, it presents users with a registration form` asking
+    for a password, first and last name, and email address.
+    On `POST`, it creates a new user with a hashed password
+    and commits it to the database. Users are then redirected to
+    the event list page. It also automatically logs the user in 
+    by adding their first name and user id to the session.
+    This page is accessible via the `/register` route
+    """
     form = RegisterForm()
 
     if request.method == 'POST' and form.validate_on_submit():
@@ -219,9 +319,43 @@ def register():
 
 @app.route('/logout')
 def logout():
+    """Logout function
+
+    Clears the session entirely which effectively logs the user out of the application.
+    Once this is done, the user is redirected back to the home page
+    """
     if session.get('user'):
         session.clear()
     return redirect(url_for('index'))
+
+@app.route('/events/<event_id>/download')
+def download_iCal(event_id):
+    """iCal export functionality
+
+    This generates an iCal (.ics) file for the provided event and sends it
+    to the browser to be downloaded. This allows for events created on this
+    site to be added to external calendar applications.
+
+    Parameters
+    ----------
+    event_id : int
+        ID of the event to export
+    """
+    event = db.session.query(Event).filter_by(id=event_id).one()
+    
+    with open('event_export.ics', 'w') as f:
+        f.write(f'''BEGIN:VCALENDAR
+BEGIN:VEVENT
+DESCRIPTION:{event.description}
+DTEND:{event.end_time.strftime('%Y%m%dT%H%M%S')}
+DTSTART:{event.start_time.strftime('%Y%m%dT%H%M%S')}
+LOCATION:{event.location}
+SUMMARY:{event.name}
+TZID:America/New_York
+END:VEVENT
+END:VCALENDAR''')
+    return send_file('event_export.ics', as_attachment=True)
+
 
 # start application locally at http://127.0.0.1:5000
 app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 5000)),debug=True)
