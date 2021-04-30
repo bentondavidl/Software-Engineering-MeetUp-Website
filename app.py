@@ -116,8 +116,8 @@ def new_event():
             host = session.get('user_id') # person who creates it is assumed the host
 
             # need to format start and end time
-            start_time = datetime.strptime(request.form.get('start_time'), '%Y-%m-%d %H:%M')
-            end_time = datetime.strptime(request.form.get('end_time'), '%Y-%m-%d %H:%M')
+            start_time = datetime.strptime(request.form.get('start_time').strip(), '%Y-%m-%d %H:%M')
+            end_time = datetime.strptime(request.form.get('end_time').strip(), '%Y-%m-%d %H:%M')
 
             location = request.form.get('location')
             description = request.form.get('description')
@@ -169,8 +169,8 @@ def update_event(event_id: int):
         name = request.form.get('name')
 
         # need to format start and end time
-        start_time = request.form.get('start_time')
-        end_time = request.form.get('end_time')
+        start_time = datetime.strptime(request.form.get('start_time').strip(), '%Y-%m-%d %H:%M')
+        end_time = datetime.strptime(request.form.get('end_time').strip(), '%Y-%m-%d %H:%M')
 
         location = request.form.get('location')
         description = request.form.get('description')
