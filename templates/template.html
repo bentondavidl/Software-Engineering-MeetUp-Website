@@ -2,7 +2,7 @@
 <html>
   <head>
       {%block head%}
-      <link rel="stylesheet" href="..\static\css\main.css">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
       <title>{ % block title %}{% endblock%} - Event Melon</title>
       {%endblock%}
 
