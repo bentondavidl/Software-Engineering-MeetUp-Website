@@ -35,7 +35,10 @@
         <img src={{ event.image }} class="event_thumb"> </img>
         <h1> {{ event.title}}</h1>
         <p> Host: {{ host_name }} </p>
+        <p> Time: {{ event.start_time }} - {{ event.end_time }} </p>
+        <p> Location: {{ event.location }} </p>
         <p> About: {{ event.description }}</p>
+
 
         {% if not is_host %}
         <form action="{{ url_for('rsvp', event_id=event.id) }}" method="post">
