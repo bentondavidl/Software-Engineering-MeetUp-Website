@@ -39,6 +39,7 @@
         <p> Time: {{ event.start_time }} - {{ event.end_time }} </p>
         <p> Location: {{ event.location }} </p>
         <p> About: {{ event.description }}</p>
+          <a href="/events/{{ event.id }}/download">Export To ICal</a>
 
 
         {% if not is_host %}
