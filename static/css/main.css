@@ -50,8 +50,9 @@ a:hover{
 
 .footer{
 	background-color: #323232
-	position: absolute;
+	position: fixed;
 	bottom: 0;
+	left:0;
 	width: 100%;
 	text-align: center;
 }
@@ -232,4 +233,8 @@ button{
 	margin: 10px;
 	height: 10vh;
 	width: 40vh;
+}
+
+.form-field{
+	color:white;
 }

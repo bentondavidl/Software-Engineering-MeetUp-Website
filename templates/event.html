@@ -28,6 +28,10 @@
             {% endif %}
         </ul>
       </nav>
+      <p></p>
+      <div class="row">
+      <div class="spacer"></div>
+      <div class="event_frame_l"
         <img src={{ event.image }} class="event_thumb"> </img>
         <h1> {{ event.title}}</h1>
         <p> Host: {{ host_name }} </p>
@@ -38,8 +42,8 @@
             <div class="formwrapper">
                 <h2 class="title">RSVP</h2>
                 <div class="form-field">
-                    {{ form.is_going.label }} {{ form.is_going }} <br/>
-                    {{ form.guests.label }} {{ form.guests }}
+                    <p>{{ form.is_going.label }} {{ form.is_going }} <br/>
+                    {{ form.guests.label }} {{ form.guests }}</p>
                 </div>
                 {{ form.submit }}
             </div>
@@ -52,6 +56,12 @@
             <input type="submit" value="Delete">
         </form>
         {% endif %}
-
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="footer">
+        <h3>Property of Bring Me The Mellons Inc. 2021</h3>
+        <h3>Josh Boshers, David Benton, Paul Goudreau, Swapnil Katawar, Timothy Pelphrey</h3>
+    </div>
     </body>
 </html>
