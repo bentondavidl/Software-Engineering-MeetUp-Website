@@ -58,7 +58,7 @@ class EventForm(FlaskForm):
 
     name = StringField('Event Title', [DataRequired(message='The event must have a name')])
 
-    start_time = DateTimeField('Start Time', [DataRequired(message='When is your event?')])
+    start_time = DateTimeField('Start Time', Format: YYYY-MM-DD HH:MM', [DataRequired(message='When is your event?')])
     end_time = DateTimeField('End Time', [DataRequired(message='When is your event?')])
 
     location = StringField('Location', [DataRequired(message='Where is your event?')])
