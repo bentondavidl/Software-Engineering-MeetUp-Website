@@ -215,6 +215,7 @@ button{
     display:inline-grid;
 }
 
+
 .profile_events{
 	background-image: linear-gradient( to bottom, #323232, #505050);
 	flex:50%;
