@@ -215,7 +215,10 @@ button{
     display:inline-grid;
 }
 
-
+.event_thumb{
+	max-width: 100px;
+	max-height: 100px;
+}
 .profile_events{
 	background-image: linear-gradient( to bottom, #323232, #505050);
 	flex:50%;
