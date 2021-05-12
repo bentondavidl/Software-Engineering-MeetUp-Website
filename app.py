@@ -50,13 +50,13 @@ def event_list():
         if request.method == 'POST':
             events = None
             if request.form.get('sort_order') == 'O':
-                public_events = db.session.query(Event).filter_by(is_private=False).order_by(desc(Event.id)).all()
-                host_events = db.session.query(Event).filter_by(host_id=session.get('user_id')).order_by(desc(Event.id)).all()
-                events = set(public_events + host_events)
-            if request.form.get('sort_order') == 'N':
                 public_events = db.session.query(Event).filter_by(is_private=False).order_by(asc(Event.id)).all()
-                host_events = db.session.query(Event).filter_by(host_id=session.get('user_id')).order_by(asc(Event.id)).all()
-                events = set(public_events + host_events)
+                host_events = db.session.query(Event).filter_by(host_id=session.get('user_id'), is_private=True).order_by(asc(Event.id)).all()
+                events = public_events + host_events
+            if request.form.get('sort_order') == 'N':
+                public_events = db.session.query(Event).filter_by(is_private=False).order_by(desc(Event.id)).all()
+                host_events = db.session.query(Event).filter_by(host_id=session.get('user_id'), is_private=True).order_by(desc(Event.id)).all()
+                events = public_events + host_events
             if request.form.get('sort_order') == 'M':
                 events = db.session.query(Event).filter_by(host_id=session.get('user_id')).order_by(Event.name).all()
             return render_template('events.html', events=events, form=events_form)
