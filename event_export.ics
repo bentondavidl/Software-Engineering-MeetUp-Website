@@ -1,0 +1,10 @@
+BEGIN:VCALENDAR
+BEGIN:VEVENT
+DESCRIPTION:Let's run through the application and make sure we are all on the same page for the presentation!
+DTEND:20210527T110000
+DTSTART:20210527T101500
+LOCATION:Discord
+SUMMARY:Pre-Presentation Group Meeting
+TZID:America/New_York
+END:VEVENT
+END:VCALENDAR
